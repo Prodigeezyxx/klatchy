@@ -1,0 +1,40 @@
+{
+  "name": "@klatchy/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "klatchy-server": "dist/index.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\"",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@klatchy/shared": "workspace:*",
+    "@fastify/cors": "^9.0.0",
+    "@fastify/websocket": "^10.0.0",
+    "fastify": "^4.28.0",
+    "ioredis": "^5.4.0",
+    "jose": "^5.9.0",
+    "nanoid": "^5.0.0",
+    "pino": "^8.21.0",
+    "pino-pretty": "^11.2.0",
+    "postgres": "^3.4.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.0",
+    "@types/node": "^20.16.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "klatchy-monorepo",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "build": "pnpm -r run build",
+    "typecheck": "pnpm -r run typecheck",
+    "lint": "pnpm -r run lint",
+    "test": "pnpm -r run test",
+    "clean": "pnpm -r run clean"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

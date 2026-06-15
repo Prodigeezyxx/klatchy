@@ -1,0 +1,36 @@
+# Fly.io deployment for klatchy-server.
+# See README.md for deploy instructions.
+app = "klatchy"
+primary_region = "ord"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  KLATCHY_BIND_HOST = "0.0.0.0"
+  KLATCHY_BIND_PORT = "8787"
+  KLATCHY_LOG_LEVEL = "info"
+
+[http_service]
+  internal_port = 8787
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "connections"
+    soft_limit = 200
+    hard_limit = 400
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/api/v1/health"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512

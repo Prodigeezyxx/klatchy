@@ -1,0 +1,40 @@
+{
+  "name": "@klatchy/client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/bin.js",
+  "types": "dist/bin.d.ts",
+  "bin": {
+    "klatchy": "dist/bin.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@klatchy/shared": "workspace:*",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "env-paths": "^3.0.0",
+    "ink": "^4.4.0",
+    "ink-text-input": "^5.0.0",
+    "open": "^10.1.0",
+    "react": "^18.3.0",
+    "ws": "^8.18.0",
+    "zod": "^3.23.0",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/ws": "^8.5.0",
+    "@types/node": "^20.16.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

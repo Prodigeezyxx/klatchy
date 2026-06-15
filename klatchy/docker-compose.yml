@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: klatchy
+      POSTGRES_USER: klatchy
+      POSTGRES_PASSWORD: klatchy
+    ports:
+      - "5432:5432"
+    volumes:
+      - klatchy_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U klatchy"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  server:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      KLATCHY_DATABASE_URL: postgres://klatchy:klatchy@postgres:5432/klatchy
+      KLATCHY_REDIS_URL: redis://redis:6379/0
+      KLATCHY_BIND_HOST: 0.0.0.0
+      KLATCHY_BIND_PORT: "8787"
+      KLATCHY_JWT_SECRET: ${KLATCHY_JWT_SECRET:-dev-secret-change-me-32-bytes-minimum}
+      KLATCHY_GITHUB_CLIENT_ID: ${KLATCHY_GITHUB_CLIENT_ID:-}
+      KLATCHY_DEV_LOGIN: "true"
+    ports:
+      - "8787:8787"
+
+volumes:
+  klatchy_pg:
